@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<title>进入推送</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+
+		<!-- 可选的Bootstrap主题文件（一般不用引入） -->
+		<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="css/signin.css">
+
+		<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+		<script src="js/jquery-2.1.1.js"></script>
+		<script src="js/jquery.cookie.js"></script>
+
+		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+		<script src="js/bootstrap.min.js"></script>
+
+		<link rel="stylesheet" href="js/jquery-ui-1.11.2/jquery-ui.css">
+		<script src="js/jquery-ui-1.11.2/jquery-ui.js"></script>
+		<script src="js/jquery.validate.js"></script>
+		<script src="js/jquery-dateFormat.min.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div class="container">
+			<form class="form-signin" id="signin">
+				<h2 class="form-signin-heading">请登录</h2>
+				<label for="pkg" class="sr-only">App包名</label>
+				<input type="text" id="pkg" class="form-control" placeholder="App包名" required autofocus>
+				<!--
+				<label for="inputPassword"
+					class="sr-only">Password</label>
+				<input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+				-->
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" id="remember" value="remember-me" checked> 记住我
+					</label>
+				</div>
+				<button class="btn btn-lg btn-primary btn-block" type="submit">进入推送</button>
+			</form>
+		</div>
+		<div class="alert" id="result" style="display:none;"> </div>
+		<script src="js/signin.js"></script>
+	</body>
+</html>

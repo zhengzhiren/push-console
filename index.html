@@ -1,0 +1,334 @@
+<html>
+	<head>
+		<title>推送控制台</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+
+		<!-- 可选的Bootstrap主题文件（一般不用引入） -->
+		<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="js/jquery-ui-1.11.2/jquery-ui.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="css/ui.jqgrid.css" />
+		<link rel="stylesheet" href="css/index.css">
+	</head>
+	<body>
+		<nav class="navbar navbar-default navbar-static-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">推送控制台</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">首页</a></li>
+					<li><a href="http://wiki.letv.cn/pages/viewpage.action?pageId=34144989">快速指南</a></li>
+					<li><a href="http://wiki.letv.cn/pages/viewpage.action?pageId=32707263">服务端API</a></li>
+					<li><a href="http://wiki.letv.cn/pages/viewpage.action?pageId=38765980">客户端SDK</a></li>
+					<li><a href="http://wiki.letv.cn/pages/viewpage.action?pageId=32707263#id-4.服务端API-3.常见问题">FAQ</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+						<span id="package"></span> <span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#appInfoModal" id="app_info_link" data-toggle="modal" data-target="#appInfoModal">应用信息</a></li>
+						<li class="divider"></li>
+						<li><a href="signin.html" id="signout">退出</a></li>
+					</ul>
+					</li>
+				</ul>
+			</div><!--/.nav-collapse -->
+		</div>
+		</nav>
+
+		<div class="container">
+
+			<div class="row" role="tabpanel">
+
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active">
+					<a href="#home" aria-controls="home" role="tab" data-toggle="tab">推送</a>
+					</li>
+					<li role="presentation">
+					<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">历史消息</a>
+					</li>
+					<li role="presentation">
+					<a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">统计</a>
+					</li>
+				</ul>
+
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active" id="home">
+						<form id="pushform" class="form-horizontal" role="form">
+
+							<div class="form-group" >
+								<label class="col-sm-1 control-label">推送方式</label>
+								<div class="col-sm-5">
+									<select name="push_type" id="push_type" class="form-control">
+										<option value="1">广播</option>
+										<option value="2">按RegId推</option>
+										<option value="3">按用户Id推</option>
+										<option value="4">按设备Id推</option>
+										<option value="5">按标签推</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group push_type regid" style="display:none;">
+								<label class="col-sm-1 control-label">RegId</label>
+								<div class="col-sm-5">
+									<input type="text" name="regids" class="form-control" id="regids" placeholder="多个RegId用空格分隔">
+								</div>
+							</div>
+							<div class="form-group push_type userid" style="display:none;">
+								<label class="col-sm-1 control-label">用户Id</label>
+								<div class="col-sm-5">
+									<input type="text" name="userids" class="form-control" id="userids" placeholder="多个用户Id用空格分隔">
+								</div>
+							</div>
+							<div class="form-group push_type devid" style="display:none;">
+								<label class="col-sm-1 control-label">设备Id</label>
+								<div class="col-sm-5">
+									<input type="text" name="devids" class="form-control" id="devids" placeholder="多个设备Id用空格分隔">
+								</div>
+							</div>
+
+							<div class="form-group push_type topic" style="display:none;">
+								<label class="col-sm-1 control-label">标签</label>
+								<div class="col-sm-5">
+									<input type="text" name="topics" class="form-control" id="topics" placeholder="多个标签用空格分隔">
+								</div>
+							</div>
+							<div class="form-group push_type topic" style="display:none;">
+								<label class="col-sm-1 control-label">标签关系</label>
+								<div class="col-sm-5">
+									<label class="radio-inline">
+										<input type="radio" name="topic_op" id="topic_op_or" checked value="or"> or
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="topic_op" id="topic_op_and" value="and"> and
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="topic_op" id="topic_op_except" value="except"> except
+									</label>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-1 control-label">消息类型</label>
+								<div class="col-sm-5">
+									<label class="radio-inline">
+										<input type="radio" name="msg_type" id="type_notification" checked value="1"> 通知
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="msg_type" id="type_message" value="2"> 消息
+									</label>
+								</div>
+							</div>
+							<div class="form-group content" style="display:none;">
+								<label class="col-sm-1 control-label">消息内容</label>
+								<div class="col-sm-5">
+									<textarea class="form-control" name="content" id="content" rows="5" placeholder="content"></textarea>
+								</div>
+							</div>
+
+							<div class="form-group notification">
+								<label class="col-sm-1 control-label">标题</label>
+								<div class="col-sm-5">
+									<input type="text" name="title" class="form-control" id="title" placeholder="title">
+								</div>
+							</div>
+							<div class="form-group notification">
+								<label class="col-sm-1 control-label">内容</label>
+								<div class="col-sm-5">
+									<textarea class="form-control" name="desc" id="desc" rows="5" placeholder="desc"></textarea>
+								</div>
+							</div>
+
+							<div class="form-group notification">
+								<label class="col-sm-1 control-label">点击动作</label>
+								<div class="col-sm-5">
+									<select name="action" class="form-control" id="action">
+										<option value="0">打开App</option>
+										<option value="1">打开App的任一Activity（还需要传入 intent_uri）</option>
+										<option value="2">打开网页（还需要传入web_uri）</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group panel panel-default">
+								<a data-toggle="collapse" href="#advancedSettings" aria-expanded="true" aria-controls="advancedSettings">
+									<div class="panel-heading">
+										<h3 class="panel-title">
+											<span class="caret"></span> 高级设置
+										</h3>
+									</div>
+								</a>
+								<div id="advancedSettings" class="panel-collapse collapse in">
+									<div class="panel-body">
+										<div class="form-group notification">
+											<div class="row">
+												<label class="col-sm-1 control-label">通知方式</label>
+												<label class="checkbox-inline">
+													<input type="checkbox" id="notify_sound" value="1" checked> 提示音
+												</label>
+												<label class="checkbox-inline">
+													<input type="checkbox" id="notify_vibrate" value="2"> 震动
+												</label>
+												<label class="checkbox-inline">
+													<input type="checkbox" id="notify_led" value="4"> LED灯
+												</label>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="row">
+												<label class="col-sm-1 control-label">存活时间</label>
+												<div class="col-sm-2">
+													<select name="action" class="form-control" id="ttl_select">
+														<option value="0">不保留</option>
+														<option value="60">1分钟</option>
+														<option value="3600">1小时</option>
+														<option value="18000">5小时</option>
+														<option value="86400">1天</option>
+														<option value="259200">3天</option>
+														<option value="-1">自定义</option>
+													</select>
+												</div>
+												<div class="col-sm-3">
+													<input type="text" name="ttl_custom" class="form-control" id="ttl_custom" placeholder="存活时间（秒）" style="display:none;">
+												</div>
+											</div>
+										</div>
+										<div class="form-group notification">
+											<label class="col-sm-1 control-label">sound_uri</label>
+											<div class="col-sm-5">
+												<input type="text" name="sound_uri" class="form-control" id="sound_uri" placeholder="sound_uri">
+											</div>
+										</div>
+										<div class="form-group notification">
+											<label class="col-sm-1 control-label">intent_uri</label>
+											<div class="col-sm-5">
+												<input type="text" name="intent_uri" class="form-control" id="intent_uri" placeholder="intent_uri">
+											</div>
+										</div>
+
+										<div class="form-group notification">
+											<label class="col-sm-1 control-label">web_uri</label>
+											<div class="col-sm-5">
+												<input type="text" name="web_uri" class="form-control" id="web_uri" placeholder="web_uri">
+											</div>
+										</div>
+
+										<div class="form-group notification">
+											<label class="col-sm-1 control-label">icon_uri</label>
+											<div class="col-sm-5">
+												<input type="text" name="icon_uri" class="form-control" id="icon_uri" placeholder="icon_uri">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<button type="submit" class="btn btn-primary">推送</button>
+						</form>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="profile">		
+						<div class="row">
+							<table id="history"><tr><td></td></tr></table> 
+							<div id="pager"></div> 
+						</div>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="messages">
+						<form id="query" class="form-inline" role="form">
+							<div class="form-group">
+								<input type="text" class="form-control" id="start_date">
+							</div>
+							<div class="form-group">
+								<div class="input-group">
+									<div>至</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" id="end_date">
+							</div>
+							<div class="form-group" id="stats_typs">
+								<input type="checkbox" id="stats_pushapi" checked><label for="stats_pushapi">PushAPI</label>
+								<input type="checkbox" id="stats_send" checked><label for="stats_send">发送</label>
+								<input type="checkbox" id="stats_received" checked><label for="stats_received">送达</label>
+								<input type="checkbox" id="stats_click" checked><label for="stats_click">点击</label>
+								<input type="checkbox" id="stats_system"><label for="stats_system">系统全局统计</label>
+							</div>
+							<button type="submit" class="btn btn-primary">查询</button>
+						</form>
+						<div class="row">
+							<canvas id="statsChart"></canvas>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="appInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">应用信息</h4>
+					</div>
+					<div class="modal-body">
+						<dl class="dl-horizontal" id="app_info"></dl>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="msgDetailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">消息详情</h4>
+					</div>
+					<div class="modal-body">
+						<dl class="dl-horizontal" id="msgInfo"></dl>
+						<div class="row">
+							<textarea class="form-control" name="msgTrace" id="msgTrace" rows="20" wrap="off"></textarea>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="alert" id="result" style="display:none;"> </div>
+
+		<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+		<script src="js/jquery-2.1.1.js"></script>
+		<script src="js/jquery-ui-1.11.2/jquery-ui.js"></script>
+		<script src="js/jquery.validate.js"></script>
+		<script src="js/jquery.cookie.js"></script>
+		<script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
+		<script src="js/jquery-dateFormat.min.js" type="text/javascript"></script>
+
+		<script src="js/bootstrap.min.js"></script>
+
+		<script src="js/Chart.js"></script>
+
+		<script src="js/i18n/grid.locale-en.js" type="text/javascript"></script>
+		<script src="js/index.js"></script>
+	</body>
+</html>
